@@ -1,0 +1,12 @@
+name: "Album of the Day"
+guid: "a81e73b7-afc7-4a56-be85-9813586c734a"
+version: "1.0.0.0"
+owner: "Balake"
+targetAbi: "12.2.0.0"
+framework: "net10.0"
+overview: "One album per music library per day"
+description: "Adds an Album of the Day view to the music library menu. Requires the File Transformation plugin."
+category: "General"
+artifacts:
+  - "Jellyfin.Plugin.AlbumOfTheDay.dll"
+changelog: "Initial release"
