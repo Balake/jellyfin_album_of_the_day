@@ -1,1 +1,20 @@
-[]
+[
+    {
+        "guid": "a81e73b7-afc7-4a56-be85-9813586c734a",
+        "name": "Album of the Day",
+        "description": "Adds an Album of the Day view to the music library menu. Requires the File Transformation plugin.",
+        "overview": "One album per music library per day",
+        "owner": "Balake",
+        "category": "General",
+        "versions": [
+            {
+                "version": "0.0.1.0",
+                "changelog": "Initial release",
+                "targetAbi": "12.2.0.0",
+                "sourceUrl": "https://github.com/Balake/jellyfin_album_of_the_day/releases/download/v0.0.1/album-of-the-day_0.0.1.0.zip",
+                "checksum": "1c29c4fba7004061a69b9ff4e422d816",
+                "timestamp": "2026-10-26T21:49:01Z"
+            }
+        ]
+    }
+]
