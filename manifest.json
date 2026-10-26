@@ -8,6 +8,14 @@
         "category": "General",
         "versions": [
             {
+                "version": "0.0.3.0",
+                "changelog": "Shows the last 10 albums of the day below today's pick. History starts with the pick made on the day you update.",
+                "targetAbi": "12.2.0.0",
+                "sourceUrl": "https://github.com/Balake/jellyfin_album_of_the_day/releases/download/v0.0.3/album-of-the-day_0.0.3.0.zip",
+                "checksum": "2ac0fbcd14110cbe015072a2f74156dc",
+                "timestamp": "2026-10-26T23:15:11Z"
+            },
+            {
                 "version": "0.0.2.0",
                 "changelog": "No longer requires the File Transformation plugin; the web client script is injected by Album of the Day itself.",
                 "targetAbi": "12.2.0.0",
