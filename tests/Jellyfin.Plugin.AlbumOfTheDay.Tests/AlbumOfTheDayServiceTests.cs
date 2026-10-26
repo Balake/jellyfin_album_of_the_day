@@ -73,12 +73,21 @@ public class AlbumOfTheDayServiceTests
     }
 }
 
-public class FileTransformationRegistrationTests
+public class IndexHtmlInjectionTests
 {
     [Fact]
-    public void IndexHtml_InlinesEmbeddedScriptBeforeBodyClose()
-    {
-        var result = FileTransformationRegistration.IndexHtml(new PatchRequestPayload { Contents = "<html><body><div></div></body></html>" });
-        Assert.Matches("(?s)^<html><body><div></div><script>.+</script></body></html>$", result);
-    }
+    public void Inject_InlinesEmbeddedScriptBeforeBodyClose()
+        => Assert.Matches("(?s)^<html><body><div></div><script>.+</script></body></html>$",
+            IndexHtmlInjection.Inject("<html><body><div></div></body></html>"));
+
+    [Theory]
+    [InlineData("/web/", true)]
+    [InlineData("/web/index.html", true)]
+    [InlineData("/jellyfin/web/", true)] // base URL configured
+    [InlineData("/Web/Index.html", true)]
+    [InlineData("/web/main.bundle.js", false)]
+    [InlineData("/web", false)] // Jellyfin redirects this to /web/
+    [InlineData("/Items/123", false)]
+    public void IsIndexHtml(string path, bool expected)
+        => Assert.Equal(expected, IndexHtmlInjection.IsIndexHtml(path));
 }

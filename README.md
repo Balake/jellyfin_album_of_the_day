@@ -6,8 +6,10 @@ Picks one album per music library per day, shared by every user who can see that
 - Singles are skipped: 1-3 tracks and under 30 minutes total.
 - Adds "Album of the Day" as the first entry in the music library view menu (above "Albums" and "Suggestions").
 
-Requires Jellyfin 12.2 and the [File Transformation](https://github.com/IAmParadox27/jellyfin-plugin-file-transformation) plugin
-(repo: `https://www.iamparadox.dev/jellyfin/plugins/manifest.json`).
+Requires Jellyfin 12.2 or newer (tested on 12.4). No other plugins needed.
+
+> **Warning:** not tested alongside plugins that use [File Transformation](https://github.com/IAmParadox27/jellyfin-plugin-file-transformation)
+> to change the web client (Custom Tabs, Media Bar, Home Screen Sections, ...). File Transformation on its own works.
 
 ## Install
 

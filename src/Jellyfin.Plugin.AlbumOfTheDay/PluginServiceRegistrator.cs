@@ -1,5 +1,6 @@
 using MediaBrowser.Controller;
 using MediaBrowser.Controller.Plugins;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Jellyfin.Plugin.AlbumOfTheDay;
@@ -10,6 +11,6 @@ public class PluginServiceRegistrator : IPluginServiceRegistrator
     public void RegisterServices(IServiceCollection serviceCollection, IServerApplicationHost applicationHost)
     {
         serviceCollection.AddSingleton<AlbumOfTheDayService>();
-        serviceCollection.AddHostedService<FileTransformationRegistration>();
+        serviceCollection.AddSingleton<IStartupFilter, IndexHtmlInjection>();
     }
 }
