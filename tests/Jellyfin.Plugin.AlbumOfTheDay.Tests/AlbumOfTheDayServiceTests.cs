@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Jellyfin.Plugin.AlbumOfTheDay.Configuration;
 using Xunit;
 
 namespace Jellyfin.Plugin.AlbumOfTheDay.Tests;
@@ -70,6 +71,36 @@ public class AlbumOfTheDayServiceTests
 
         var only = new List<Guid> { candidates[0] };
         Assert.Equal(candidates[0], AlbumOfTheDayService.ChooseNext(new[] { candidates[0] }, only, _ => true));
+    }
+}
+
+public class RecordPreviousTests
+{
+    [Fact]
+    public void KeepsNewestTenPicks_NewestFirst()
+    {
+        var pick = new LibraryPick();
+        for (var day = 1; day <= 12; day++)
+        {
+            var date = $"2026-10-{day:00}";
+            AlbumOfTheDayService.RecordPrevious(pick, date);
+            pick.Date = date;
+            pick.AlbumId = Guid.NewGuid();
+        }
+
+        Assert.Equal(
+            Enumerable.Range(2, 10).Reverse().Select(d => $"2026-10-{d:00}"),
+            pick.History.Select(h => h.Date));
+    }
+
+    [Fact]
+    public void SkipsFirstPickAndSameDayReplacement()
+    {
+        var pick = new LibraryPick();
+        AlbumOfTheDayService.RecordPrevious(pick, "2026-10-26");
+        pick.Date = "2026-10-26";
+        AlbumOfTheDayService.RecordPrevious(pick, "2026-10-26");
+        Assert.Empty(pick.History);
     }
 }
 

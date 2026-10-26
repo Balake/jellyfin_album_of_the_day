@@ -1,6 +1,6 @@
 name: "Album of the Day"
 guid: "a81e73b7-afc7-4a56-be85-9813586c734a"
-version: "0.0.2.0"
+version: "0.0.3.0"
 owner: "Balake"
 targetAbi: "12.2.0.0"
 framework: "net10.0"
@@ -9,4 +9,4 @@ description: "Adds an Album of the Day view to the music library menu. No other 
 category: "General"
 artifacts:
   - "Jellyfin.Plugin.AlbumOfTheDay.dll"
-changelog: "No longer requires the File Transformation plugin; the web client script is injected by Album of the Day itself."
+changelog: "Shows the last 10 albums of the day below today's pick. History starts with the pick made on the day you update."

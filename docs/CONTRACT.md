@@ -13,7 +13,9 @@ No plugin dependencies.
 
 ## API
 `GET /AlbumOfTheDay/{libraryId}` — `[Authorize]`
-- 200 `{ "Id": "<album guid>" }`
+- 200 `{ "Id": "<album guid>", "Previous": [{ "Id": "<album guid>", "Date": "yyyy-MM-dd" }] }`.
+  `Previous`: up to 10 earlier picks of the library, newest first, without albums since deleted or
+  hidden from the caller. A pick enters it when the next day's pick replaces it.
 - 403 if the calling user cannot see the library
 - 404 if the library has no eligible album
 
@@ -21,4 +23,5 @@ No plugin dependencies.
 An `IStartupFilter` middleware inlines `Web/albumOfTheDay.js` (embedded resource) before `</body>`
 in every jellyfin-web `index.html` response (`/web/`, `/web/index.html`, behind any base URL). The script adds "Album of the Day" as the first entry in the
 music library view menu (`#library-view-menu`, before "Albums" and "Suggestions"). It is the default
-view when a library is opened (URL without `&tab=N`) and shows the album centered with a Play button.
+view when a library is opened (URL without `&tab=N`) and shows the album centered with a Play button,
+with the previous albums of the day as cards below it.

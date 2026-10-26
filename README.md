@@ -4,6 +4,7 @@ Picks one album per music library per day, shared by every user who can see that
 
 - No repeats until every eligible album in the library has been picked, then the cycle restarts.
 - Singles are skipped: 1-3 tracks and under 30 minutes total.
+- Shows the last 10 albums of the day below today's pick.
 - Adds "Album of the Day" as the first entry in the music library view menu (above "Albums" and "Suggestions").
 
 Requires Jellyfin 12.2 or newer (tested on 12.4). No other plugins needed.
@@ -36,4 +37,5 @@ Restart Jellyfin, then hard-refresh the web client.
 
 ## API
 
-`GET /AlbumOfTheDay/{libraryId}` → `{ "Id": "<album id>" }`, 403 without library access, 404 if no eligible album.
+`GET /AlbumOfTheDay/{libraryId}` → `{ "Id": "<album id>", "Previous": [{ "Id": "<album id>", "Date": "yyyy-MM-dd" }] }`,
+403 without library access, 404 if no eligible album. `Previous` holds up to 10 earlier picks, newest first.

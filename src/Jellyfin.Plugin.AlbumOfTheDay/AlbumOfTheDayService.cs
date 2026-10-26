@@ -14,6 +14,8 @@ namespace Jellyfin.Plugin.AlbumOfTheDay;
 /// <summary>Picks one album per music library per server-local day.</summary>
 public class AlbumOfTheDayService
 {
+    public const int HistorySize = 10;
+
     private static readonly long SingleMaxTicks = TimeSpan.FromMinutes(30).Ticks;
 
     private readonly ILibraryManager _libraryManager;
@@ -102,10 +104,38 @@ public class AlbumOfTheDayService
                 return null;
             }
 
+            RecordPrevious(pick, today);
             pick.Date = today;
             pick.AlbumId = chosen.Value;
             plugin.SaveConfiguration();
             return chosen;
+        }
+    }
+
+    /// <summary>
+    /// Moves the current pick into the history before it is replaced, keeping the newest <see cref="HistorySize"/>.
+    /// A same-day replacement (today's album was removed) is not history.
+    /// </summary>
+    public static void RecordPrevious(LibraryPick pick, string today)
+    {
+        if (pick.Date.Length == 0 || pick.Date == today)
+        {
+            return;
+        }
+
+        pick.History.Insert(0, new PastPick { Date = pick.Date, AlbumId = pick.AlbumId });
+        if (pick.History.Count > HistorySize)
+        {
+            pick.History.RemoveRange(HistorySize, pick.History.Count - HistorySize);
+        }
+    }
+
+    /// <summary>Earlier picks of the library, newest first.</summary>
+    public IReadOnlyList<PastPick> GetPrevious(Guid libraryId)
+    {
+        lock (_lock)
+        {
+            return Plugin.Instance!.Configuration.Picks.Find(p => p.LibraryId == libraryId)?.History.ToList() ?? [];
         }
     }
 

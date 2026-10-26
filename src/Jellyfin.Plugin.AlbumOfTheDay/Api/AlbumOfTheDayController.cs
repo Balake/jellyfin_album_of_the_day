@@ -64,6 +64,10 @@ public class AlbumOfTheDayController : ControllerBase
             return NotFound();
         }
 
-        return Ok(new { Id = id.Value });
+        // Albums since deleted or hidden from this user are left out.
+        var previous = _service.GetPrevious(libraryId)
+            .Where(p => _libraryManager.GetItemById(p.AlbumId) is { } album && album.IsVisible(user))
+            .Select(p => new { Id = p.AlbumId, p.Date });
+        return Ok(new { Id = id.Value, Previous = previous });
     }
 }
